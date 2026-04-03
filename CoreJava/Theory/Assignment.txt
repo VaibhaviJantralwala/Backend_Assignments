@@ -1,0 +1,873 @@
+History of Java -->
+Java was developed by James Gosling and his team at Sun Microsystems in the early 1990s. 
+
+It was originally called "Oak", named after an oak tree outside Gosling's office. 
+
+Later, it was renamed Java, inspired by Java coffee. The first public version, Java 1.0, was released in 1995 with the slogan "Write Once, Run Anywhere". 
+
+In 2010, Oracle Corporation acquired Sun Microsystems and took over the development of Java. 
+
+Today, Java is one of the most widely used programming languages in the world, used in web development, mobile apps (Android), enterprise software, and more.
+
+Features of Java (Platform Independent, Object-Oriented, etc.) -->
+
+Platform Independent – 
+Java code is compiled into bytecode, which can run on any machine that has a JVM installed, regardless of the operating system.
+
+Object-Oriented – 
+Java follows OOP principles like encapsulation, inheritance, polymorphism, and abstraction, making code modular and reusable.
+
+Simple – 
+Java has a clean and easy-to-learn syntax, similar to C++, but without complex features like pointers.
+
+Robust – 
+Java has strong memory management, exception handling, and type checking, which makes programs reliable.
+
+Multithreaded – 
+Java supports multithreading, allowing multiple tasks to run simultaneously within a program.
+
+Portable – 
+Since bytecode can run on any platform, Java programs are highly portable.
+
+
+Understanding JVM, JRE, and JDK -->
+These three are core components of the Java ecosystem:
+
+JVM (Java Virtual Machine) – 
+JVM is the engine that runs Java bytecode. It converts bytecode into machine-specific instructions. JVM is platform-dependent, but it makes Java platform-independent. It also handles memory management through garbage collection.
+
+JRE (Java Runtime Environment) – 
+JRE provides the environment to run Java programs. It includes the JVM + standard Java libraries and class files. If you only want to run a Java program (not develop), you just need the JRE.
+
+JDK (Java Development Kit) – 
+JDK is the complete package for developers. It includes JRE + development tools like the compiler (javac), debugger, and other tools needed to write, compile, and run Java programs.
+
+
+Setting up the Java environment and IDE (e.g., Eclipse, IntelliJ) -->
+To set up a Java development environment, follow these steps:
+
+Download and Install JDK – Go to the official Oracle website and download the latest JDK version. Install it on your system.
+Set Environment Variables –
+
+Set JAVA_HOME to the JDK installation path.
+Add the JDK bin folder to the PATH variable so that commands like javac and java work from the terminal. 
+
+Verify Installation – Open the command prompt and type
+java -version
+javac -version
+
+If versions are displayed, Java is installed correctly.
+
+Install an IDE – An IDE makes coding easier with features like auto-complete, debugging, and project management. Popular Java IDEs are:
+
+Eclipse – Free, open-source, widely used in academics and industry.
+IntelliJ IDEA – Powerful and developer-friendly, preferred in professional environments.
+NetBeans – Another free IDE, good for beginners.
+
+Create and Run a Java Project – Open the IDE, create a new Java project, write your code, and run it directly from the IDE.
+
+Java Program Structure (Packages, Classes, Methods)-->
+A Java program is organized in the following structure:
+
+// 1. Package Declaration (optional)
+package com.example;
+
+// 2. Import Statements (optional)
+import java.util.Scanner;
+
+// 3. Class Definition
+public class HelloWorld {
+
+    // 4. Main Method - Entry point of the program
+    public static void main(String[] args) {
+
+        // 5. Statement
+        System.out.println("Hello, World!");
+    }
+}
+
+Package – A package is a namespace that organizes related classes and interfaces. For example, package com.myapp;. It avoids naming conflicts and improves code structure.
+
+Import Statements – Used to include classes from other packages. For example, import java.util.Scanner; allows the use of the Scanner class.
+Class – Every Java program must have at least one class. The class name should match the filename. For example, HelloWorld.java must have public class HelloWorld.
+
+Main Method – public static void main(String[] args) is the entry point of every Java program. The JVM starts execution from this method.
+public – accessible from anywhere
+static – no object needed to call it
+void – returns nothing
+String[] args – accepts command-line arguments
+
+Methods – Methods are blocks of code that perform specific tasks. They are defined inside a class and can be called when needed.
+ 
+Primitive Data Types in Java (int, float, char, etc.) -->
+Primitive data types are the most basic data types built into Java. They store simple values directly in memory. Java has 8 primitive data types:
+byte : 1 byte, Default value : 0 , E.g: byte b = 10;
+short : 2 bytes, Default value : 0 , E.g: short s = 200;
+int : 4 bytes, Default value : 0 , E.g: int x = 1000;
+long : 8 bytes, Default value : 0L , E.g: long l = 99999L;
+float : 4 bytes, Default value : 0.0f , E.g: float f = 3.14f;
+double : 8 bytes, Default value : 0.0d , E.g: double d = 3.14159;
+char : 2 bytes, Default value : '\u0000' , E.g: char c = 'A';
+boolean : 1 bit, Default value : false , E.g: boolean flag = true;
+
+Variable Declaration and Initialization -->
+A variable is a named memory location used to store data. In Java, every variable must be declared with a data type.
+
+dataType variableName;           // Declaration
+dataType variableName = value;   // Declaration + Initialization
+
+Example :
+int age;           // Declaration
+age = 21;          // Initialization
+int marks = 95;    // Declaration + Initialization at once
+
+Types of Variables in Java:
+Local Variable – Declared inside a method. Only accessible within that method.
+void display() {
+    int x = 10;  // local variable
+}
+
+Instance Variable – Declared inside a class but outside any method. Each object has its own copy.
+class Student {
+    String name;  // instance variable
+}
+
+Static Variable – Declared with the static keyword. Shared among all objects of the class.
+class Student {
+    static String college = "ABC College";  // static variable
+}
+
+Operators: Arithmetic, Relational, Logical, Assignment, Unary, and Bitwise -->
+Operators are symbols that perform operations on variables and values. Java supports the following types:
+
+Arithmetic Operators
+Used to perform basic mathematical operations.( + , - , * , / , % )
+
+Relational (Comparison) Operators
+Used to compare two values. Always return true or false. ( < , <= , > , >= , == , != )
+
+Logical Operators
+Used to combine multiple conditions. ( || , && , ! )
+
+Assignment Operators
+Used to assign values to variables. ( = , += , -= , /= , *= , %= )
+
+Unary Operators
+Operate on a single operand.( + , - , ++ , -- , !)
+
+Bitwise Operators
+Operate on binary (bit-level) representation of numbers.( & , | , ^ , ~ , >> , << )
+
+Type Conversion and Type Casting -->
+
+Type Conversion (Implicit / Widening)
+When a smaller data type is automatically converted to a larger data type by Java. No data is lost.
+Order: byte → short → int → long → float → double
+Java does this automatically, so it is also called implicit type conversion or widening conversion.
+int a = 100;
+double d = a;  // automatic conversion
+System.out.println(d);  // 100.0
+
+Type Casting (Explicit / Narrowing)
+When you manually convert a larger data type to a smaller one. There may be data loss.
+This is called explicit type casting or narrowing conversion. You must use parentheses with the target type.
+double d = 9.99;
+int a = (int) d;  // explicit casting
+System.out.println(a);  // 9 (decimal part is lost)
+
+If-Else Statements -->
+If-Else statements are used to make decisions in a program. Based on a condition being true or false, different blocks of code are executed.
+
+Simple If Statement
+Executes a block only if the condition is true.
+
+If-Else Statement
+Executes one block if condition is true, another if false.
+
+If-Else If Ladder
+Used to check multiple conditions one by one.
+
+Nested If-Else
+An if statement inside another if statement.
+
+Ternary Operator (Shorthand If-Else)
+A one-line shorthand for simple if-else.
+Syntax: condition ? valueIfTrue : valueIfFalse
+
+Switch Case Statements -->
+A switch statement is used when you want to compare a single variable against multiple values. It is a cleaner alternative to a long if-else-if ladder.
+switch (expression) {
+    case value1:
+        // code
+        break;
+    case value2:
+        // code
+        break;
+    default:
+        // code if no case matches
+}
+The break keyword stops execution after a matching case. Without it, execution falls through to the next case.
+The default case runs when no case matches (like the else in if-else).
+Switch works with: int, char, String, byte, short, and enum.
+
+Loops (For, While, Do-While) -->
+Loops are used to repeatedly execute a block of code as long as a condition is true. Java provides three types of loops:
+For Loop
+Used when the number of iterations is known in advance
+for (initialization; condition; update) {
+    // code
+}
+How it works:
+int i = initial value → Initialize counter
+i <= condition → Check condition
+Execute body
+i++ → Update counter
+Repeat from step 2
+
+While Loop
+Used when the number of iterations is not known and depends on a condition.
+while (condition) {
+    // code
+}
+The condition is checked before entering the loop. If false from the start, the loop never executes.
+
+Do-While Loop
+Similar to while, but the body is executed at least once because the condition is checked after the loop body.
+do {
+    // code
+} while (condition);
+
+Enhanced For Loop (For-Each)
+Used to iterate over arrays or collections easily.
+for (int num : numbers) {
+    System.out.println(num);
+}
+
+Break and Continue Keywords -->
+Both break and continue are jump statements used to control the flow inside loops and switch cases.
+Break Statement
+The break statement is used to immediately exit a loop or switch case when a certain condition is met.
+Continue Statement
+The continue statement skips the current iteration and jumps to the next one. It does not exit the loop entirely.
+
+Defining a Class and Object in Java -->
+A class is a blueprint or template that defines the properties (attributes) and behaviors (methods) that objects of that type will have. A class itself does not occupy memory — it is just a design.
+class ClassName {
+    // attributes (variables)
+    // behaviors (methods)
+}
+
+Object
+An object is a real-world instance of a class. When an object is created, memory is allocated for it. Every object has its own copy of instance variables.
+ClassName objectName = new ClassName();
+
+Real-World Analogy
+Class : Blueprint of a Car
+Object : Actual Car built from blueprint
+Attributes : Color, Model, Speed
+Methods : Start, Stop, Accelerate
+
+Constructors and Overloading -->
+A constructor is a special method that is automatically called when an object is created. It is used to initialize the object's attributes.
+
+Key properties of a Constructor:
+Has the same name as the class
+Has no return type (not even void)
+Called automatically when object is created using new
+
+Types of Constructors
+1. Default Constructor
+A constructor with no parameters. Java provides one automatically if you don't define any constructor.
+2. Parameterized Constructor
+A constructor that accepts parameters to initialize an object with specific values.
+
+Constructor Overloading : 
+Constructor overloading means defining multiple constructors in the same class with different parameter lists. Java decides which constructor to call based on the arguments passed.
+Java identifies which constructor to invoke based on the number and type of arguments — this is called compile-time polymorphism.
+
+Object Creation, Accessing Members of the Class -->
+Object Creation
+Objects are created using the new keyword which allocates memory at runtime.
+ClassName objectName = new ClassName();
+
+What happens when new is used:
+Memory is allocated on the heap
+The constructor is called to initialize the object
+A reference is returned and stored in the variable
+
+Accessing Instance Variables
+Use the dot operator (.) to access variables of an object.
+
+Creating Multiple Objects
+Each object has its own separate copy of instance variables.
+
+Anonymous Object
+An object created without a reference variable. Used when the object is needed only once.
+new Car().showDetails();  // Anonymous object
+
+
+this Keyword -->
+The this keyword is a reference variable that refers to the current object of the class. It is used inside instance methods and constructors.
+
+Use 1: Resolve Naming Conflict (Variable Shadowing)
+When instance variable and parameter have the same name, this is used to differentiate them.
+Without this, Java would treat both name references as the local parameter — the instance variable would never be assigned.
+
+Use 2: Call Another Constructor — this()
+Used to call one constructor from another in the same class. This is called constructor chaining.
+this() must always be the first statement in a constructor.
+
+Use 3: Pass Current Object as Argument
+this can be passed as an argument to another method or constructor.
+
+Use 4: Return Current Object
+this can be used to return the current object from a method, useful in method chaining.
+
+this.variable : Refers to current object's instance variable
+this() : Calls another constructor in same class
+this as argument : Passes current object to a method
+return this : Returns current object from a method
+
+Defining Methods -->
+A method is a block of code that performs a specific task. It is defined inside a class and can be called whenever that task needs to be performed. Methods help in code reusability and make programs more organized and readable.
+
+returnType methodName(parameters) {
+    // method body
+    return value;  // if returnType is not void
+}
+
+Return Type : Data type of value returned (int, String, void, etc.)
+Method Name : Name used to call the method
+Parameters : Input values passed to the method (optional)
+Method Body : Block of code that executes when method is called
+Return Statement : Returns a value back to the caller (if not void) 
+
+Types of Methods in Java
+1. Predefined Methods – Already defined in Java libraries.
+System.out.println();   // predefined method
+Math.sqrt(25);          // predefined method
+
+2. User-defined Methods – Methods created by the programmer.
+void displayMessage() {
+    System.out.println("Hello from user-defined method!");
+}
+
+
+Method Parameters and Return Types --> 
+Method Parameters : 
+Parameters are input values passed into a method when it is called. They allow methods to work with different data each time they are called.
+Types of Parameters:
+1. Formal Parameters – Variables listed in the method definition.
+void greet(String name) {   // 'name' is a formal parameter
+    System.out.println("Hello, " + name);
+}
+Actual Parameters (Arguments) – Values passed when calling the method.
+greet("Raj");   // "Raj" is the actual parameter (argument)
+
+Return Types
+The return type specifies what type of value the method sends back to the caller.
+void : Returns nothing , example : void display()
+int : Returns integerint , add(int a, int b)
+double : Returns decimal , double area(double r)
+String : Returns text , String getName()
+boolean : Returns true/false , boolean isValid()
+ClassName : Returns an object , Student getStudent()
+
+Method Overloading -->
+Method Overloading means defining multiple methods with the same name but with different parameter lists in the same class. Java decides which method to call based on the number, type, or order of arguments passed.
+
+Method Overloading is an example of Compile-Time Polymorphism (Static Polymorphism).
+
+Ways to Overload a Method
+1. Different Number of Parameters
+2. Different Data Types of Parameters
+3. Different Order of Parameters
+
+important rules for overloading :
+Same method name : Must have the same name
+Different parameters : Must differ in number, type, or order
+Return type : Cannot overload by return type alone
+Access modifier : Can be different for each overloaded method
+
+Static Methods and Variables -->
+The static keyword means the member belongs to the class itself, not to any particular object. Static members are shared across all objects of the class.
+
+Static Variables
+A static variable is shared by all objects of the class. Only one copy exists in memory regardless of how many objects are created.
+
+Static Methods
+A static method belongs to the class and can be called without creating an object. It is called using the class name directly.
+
+Rules and Restrictions of Static Methods : 
+Can access : Only static variables and static methods
+Cannot access : Instance variables or instance methods directly
+Cannot use : this or super keywords
+Called using : Class name (no object needed)
+
+Static Block : 
+A static block is used to initialize static variables. It runs once when the class is loaded into memory, before any object is created.
+ 
+Basics of OOP: Encapsulation, Inheritance, Polymorphism, Abstraction -->
+OOP is a programming paradigm that organizes code around objects rather than functions. It is based on four core principles :
+
+Encapsulation means wrapping data (variables) and methods together into a single unit called a class, and restricting direct access to the data from outside the class. It is achieved using private variables and public getter/setter methods.
+Benefits of Encapsulation:
+Protects data from unauthorized access
+Provides control over data through validation in setters
+Makes code easier to maintain and modify
+
+Inheritance means a child class (subclass) acquires the properties and behaviors of a parent class (superclass). It promotes code reusability and establishes an IS-A relationship.
+The keyword extends is used to inherit a class.
+
+Polymorphism means one thing in many forms. In Java, the same method name can behave differently based on the object or parameters. It has two types:
+Compile-time Polymorphism → Method Overloading
+Runtime Polymorphism → Method Overriding
+
+Abstraction means hiding the internal implementation details and showing only the essential features to the user. It is achieved using abstract classes and interfaces.
+
+Inheritance: Single, Multilevel, Hierarchical -->
+Single : One child, one parent : A → B 
+Multilevel : Chain of inheritance : A → B → C
+Hierarchical : Multiple children, one parent : A → B, A → C
+Multiple : Not supported via classes : Use Interfaces
+
+Method Overriding and Dynamic Method Dispatch -->
+Method Overriding means a child class provides its own implementation of a method that is already defined in the parent class. The method in the child class overrides the parent's version.
+
+Rules for Method Overriding:
+Method name must be the same
+Parameters must be the same
+Return type must be the same or covariant
+Cannot override static, final, or private methods
+Uses @Override annotation (recommended)
+
+Using super to Call Parent Method
+The super keyword is used inside the child class to call the overridden method of the parent class.
+
+Dynamic Method Dispatch is the mechanism by which a call to an overridden method is resolved at runtime, not at compile time. It is the foundation of Runtime Polymorphism in Java.
+The key concept is: a parent class reference can hold a child class object, and the method that gets called depends on the actual object at runtime, not the reference type.
+
+The compiler only checks if the method exists in the reference type. The JVM decides at runtime which version to execute based on the actual object
+
+Parent ref = Child objRuntime method resolution
+
+Constructor Types (Default, Parameterized) -->
+A constructor is a special method that is automatically called when an object is created. It initializes the object. Java has the following types of constructors:
+
+1. Default Constructor
+A default constructor is a constructor with no parameters. If you do not define any constructor in your class, Java automatically provides a default constructor. It assigns default values to instance variables.
+Java's Automatically Provided Default Constructor is called when no explicitly other constructor is created by programmer
+
+User-Defined Default Constructor:
+You can also define your own default constructor to set custom initial values.
+
+Parameterized Constructor
+A parameterized constructor accepts arguments to initialize an object with specific values at the time of creation.
+
+Note:
+If you define a parameterized constructor, Java will NOT provide a default constructor automatically. You must define it explicitly if needed.
+
+Copy Constructor (Emulated in Java) -->
+A copy constructor creates a new object as a copy of an existing object. Unlike C++, Java does not have a built-in copy constructor, but we can emulate it by defining a constructor that accepts an object of the same class as a parameter
+
+Constructor Overloading -->
+Constructor Overloading means defining multiple constructors in the same class with different parameter lists. It gives flexibility to create objects in different ways based on the available information.
+
+Using this() for Constructor Chaining
+Instead of repeating initialization code, use this() to call one constructor from another.
+
+Object Life Cycle and Garbage Collection -->
+Stages of Object Life Cycle :
+Creation → In Use (Reachable) → Unreachable → Garbage Collected → Destroyed
+
+Stage 1: Object Creation
+Object is created using the new keyword. Memory is allocated on the heap
+
+Stage 2: Object In Use (Reachable)
+The object is actively being used — variables are read/written, methods are called. The object has at least one active reference pointing to it.
+
+Stage 3: Object Becomes Unreachable
+The object becomes unreachable when no reference variable points to it anymore.
+
+Stage 4: Garbage Collection
+The Garbage Collector (GC) automatically detects unreachable objects and reclaims their memory. This happens automatically — you do not need to free memory manually like in C/C++.
+
+The finalize() Method
+The finalize() method is called by the Garbage Collector just before destroying an object. It can be overridden to perform cleanup tasks like closing files or releasing resources.
+
+System.gc() only requests garbage collection — it is not guaranteed to run immediately. The JVM decides when to run it.
+
+How Garbage Collection Works Internally
+Java uses different GC algorithms. The most common concept is the Mark and Sweep algorithm:
+Step 1 — Mark: GC identifies all objects that are still reachable (have active references) and marks them.
+Step 2 — Sweep: All unmarked (unreachable) objects are cleared from memory.
+Step 3 — Compact (optional): Remaining objects are moved together to reduce memory fragmentation.
+
+Key Points about Garbage Collection : 
+Automatic : Java handles memory automatically
+Heap based : All objects live on the heap
+GC trigger : Runs when memory is low or System.gc() called
+finalize() : Called before object is destroyed
+Cannot force GC : System.gc() is just a request
+Advantage : No memory leaks, no manual free() like C/C++
+
+One-Dimensional and Multidimensional Arrays -->
+An array is a collection of elements of the same data type stored in contiguous memory locations. Instead of declaring multiple variables, an array stores multiple values under a single name, accessed using an index starting from 0.
+Declaration, Creation and Initialization
+Step 1 — Declaration:
+int[] marks;        // Preferred style
+int marks[];        // Also valid
+
+Step 2 — Creation (Memory Allocation):
+marks = new int[2];  // Array of 5 integers
+
+Step 3 — Initialization:
+marks[0] = 90;
+marks[1] = 85;
+
+All in One Line: int[] marks = {90, 85, 78, 92, 88};
+
+Key Properties of Arrays : 
+Index - Starts from 0
+Size - Fixed after creation
+Type - All elements same data type
+Memory - Stored in contiguous heap memory
+Default values - 0 for int, null for objects, false for Boolean
+
+A multidimensional array is an array of arrays. The most commonly used is the 2D array, which represents data in rows and columns like a table or matrix.
+2D Array — Declaration and Initialization :
+// Declaration
+int[][] matrix = new int[3][3];  // 3 rows, 3 columns
+
+// Initialization
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+Jagged Array
+A jagged array is a 2D array where each row can have a different number of columns.
+
+String Handling in Java: String Class, StringBuffer, StringBuilder -->
+In Java, a String is a sequence of characters. Java provides three classes for string handling:
+String Class
+The String class represents immutable strings — once created, the value cannot be changed. Any modification creates a new String object.
+
+Strings are stored in the String Pool (a special memory area in heap). If the same literal is created twice, both variables point to the same object in the pool.
+
+StringBuffer Class :
+StringBuffer is a mutable string class — its content can be changed without creating a new object. It is thread-safe (synchronized), making it suitable for multi-threaded programs.
+
+StringBuilder Class : 
+StringBuilder is also mutable like StringBuffer but is NOT thread-safe. It is faster than StringBuffer and used in single-threaded programs
+
+
+Array of Objects -->
+An array of objects stores multiple objects of the same class in a single array. Each element of the array is a reference to an object.
+
+String Methods (length, charAt, substring, etc.) -->
+The String class provides many built-in methods to manipulate and work with strings:
+
+length() : Length of string : "Hello".length() → 5
+charAt(i) : Char at index : "Hello".charAt(1) → e
+substring(i,j) : Extract part : "Hello".substring(1,3) → el
+indexOf(c) : Find index : "Hello".indexOf('l') → 2
+toUpperCase() : Uppercase : "hello".toUpperCase() → HELLO
+toLowerCase() : Lowercase : "HELLO".toLowerCase() → hello
+trim() : Remove spaces : " Hi ".trim() → Hi
+replace(a,b) : Replace value : "Hello".replace('l','r') → Herro
+equals() : Compare content : "Hi".equals("Hi") → true 
+contains() : Check substring : "Hello".contains("ell") → true
+split() : Split to array : "a,b".split(",") → [a, b]
+isEmpty() : Check if empty : "".isEmpty() → true
+valueOf() : Convert to String : String.valueOf(10) → "10"
+
+Inheritance Types and Benefits -->
+Inheritance is an OOP concept where a child class (subclass) acquires the properties and behaviors of a parent class (superclass). It is done using the extends keyword and represents an IS-A relationship.
+
+Types of Inheritance in Java : 
+1. Single Inheritance
+One child class inherits from one parent class.
+2. Multilevel Inheritance
+A class inherits from a class that **itself inherits** from another class — 
+3. Hierarchical Inheritance
+Multiple child classes inherit from a **single parent class
+4. Multiple Inheritance (Via Interface)
+Java does NOT support multiple inheritance through classes** to avoid the Diamond Problem. However it is supported through interfaces
+5. Hybrid Inheritance (Via Interface)
+A combination of two or more types of inheritance. Also achieved through interfaces in Java.
+
+Benefits of Inheritance : 
+Code Reusability : Child class reuses parent class methods and variables
+Less Redundancy : Common code written once in parent, shared by all children
+Extensibility : New features added in child without touching parent
+Method Overriding : Child can redefine parent behavior when needed
+Polymorphism : Parent reference can hold child objects for flexible code
+
+Method Overriding -->
+Method Overriding occurs when a child class provides its own specific implementation of a method that is already defined in the parent class. The overriding method must have the same name, same parameters, and same return type.
+
+Rules of Method Overriding :
+Same method name : Must match exactly
+Same parameters : Same number, type and order
+Same return type : Must be same or covariant (subtype)
+Access modifier : Cannot be more restrictive than parentCannot overridestatic, final, private methods
+@Override : Annotation is recommended but not mandatory
+
+Covariant Return Type
+The overriding method can return a subtype of the parent method's return type.
+
+Cannot Override Static Methods
+Static methods belong to the class, not the object. Defining the same static method in a child class is called Method Hiding, not overriding.
+
+Cannot Override Final Methods
+
+Dynamic Binding (Run-Time Polymorphism) -->
+Dynamic Binding (also called Late Binding) means the method call is resolved at runtime based on the actual object type, not the reference type. This is the mechanism behind Runtime Polymorphism.
+
+How JVM Resolves Dynamic Binding
+Animal a = new Dog();
+a.sound();
+
+Step 1: Compiler checks if sound() exists in Animal class 
+Step 2: Compiler does NOT decide which version to call
+Step 3: At runtime, JVM checks actual object type = Dog
+Step 4: JVM calls Dog's version of sound()
+
+Super Keyword and Method Hiding -->
+
+The super keyword is a reference variable that refers to the immediate parent class object. It is used inside child class methods and constructors to access parent class members.
+
+Use 1: Access Parent Class Variable
+Used when both parent and child have a variable with the same name.
+
+Use 2: Call Parent Class Method
+Used to call the overridden method of the parent class from the child class.
+
+Use 3: Call Parent Class Constructor — super()
+Used to call the parent class constructor from the child class constructor.
+super() must always be the first statement in the child constructor.
+
+super Keyword Uses : 
+Access parent variable : super.variableName : When child has same variable name
+Call parent method : super.methodName() : Call overridden parent method
+Call parent constructor : super() or super(args) : Initialize parent part of object
+
+Method Hiding occurs when a child class defines a static method with the same name as a static method in the parent class. Unlike overriding, the method that gets called depends on the reference type, not the actual object.
+
+Abstract Classes and Methods -->
+An abstract class is a class that cannot be instantiated (you cannot create objects of it directly). It is declared using the abstract keyword and is meant to be extended by child classes. It can contain both abstract methods (without body) and concrete methods (with body).
+
+Abstract Method
+An abstract method is a method that has no body — it is just declared. The child class must provide its implementation.
+abstract void methodName();  // No body, ends with semicolon
+
+Rules of Abstract Classes : 
+abstract keyword : Must use abstract to declare
+Cannot instantiate : Cannot create object directly
+Can have abstract methods : Methods without body
+Can have concrete methods : Methods with body
+Can have constructor : Yes, called via super() in child
+Can have variables : Yes, both static and instance
+Child must implement : All abstract methods must be implemented
+If child doesn't implement : Child must also be declared abstract
+
+Interfaces: Multiple Inheritance in Java -->
+
+An interface is a 100% abstract blueprint that defines a set of methods a class must implement. It represents a contract — any class that implements the interface agrees to provide implementations for all its methods.
+Interfaces are declared using the interface keyword and implemented using the implements keyword.
+
+interface InterfaceName {
+    // constants (public static final by default)
+    int MAX = 100;
+
+    // abstract methods (public abstract by default)
+    void method1();
+    void method2();
+}
+
+Important Properties of Interfaces : 
+Methods : public abstract by default
+Variables : public static final by default (constants)
+Constructor : Cannot have constructor
+Instantiation : Cannot create objects
+Implementation : Class uses implements keyword
+Multiple : A class can implement multiple interfaces
+Inheritance : An interface can extend multiple interfaces
+
+Implementing Multiple Interfaces -->
+Java does not allow multiple inheritance through classes to avoid the Diamond Problem. However, a class can implement multiple interfaces, effectively achieving multiple inheritance safely.
+
+Java Packages: Built-in and User-Defined Packages -->
+A package is a namespace that organizes related classes and interfaces into a single group — similar to folders in a file system. It helps avoid naming conflicts, improves code organization, and provides access control.
+
+Why Use Packages?
+Organization : Groups related classes together
+Avoid Name Conflicts : Two classes can have same name in different packages
+Access Control : Restricts access to classes and members
+Reusability : Packaged code can be reused across projects
+Maintainability : Easier to find and manage code
+
+Packages
+├── Built-in Packages  (provided by Java)
+└── User-defined Packages (created by programmer)
+
+Built-in Packages in Java :
+Java provides a rich set of pre-defined packages as part of the Java API (Application Programming Interface)
+Commonly Used Built-in Packages :
+
+1. java.lang — Core Language Package
+Automatically imported in every Java program. Contains fundamental classes.
+Key classes in java.lang:
+String, Math, Object, System, Integer, Double, Boolean, StringBuilder, Thread, Exception
+
+2. java.util — Utility Package
+Contains data structures, date/time, random numbers, and more.
+Key classes in java.util:
+ArrayList, LinkedList, HashMap, HashSet, Scanner, Random, Date, Arrays, Collections
+
+3. java.io — Input/Output Package
+Handles reading and writing data from files, streams, and console.
+Key classes in java.io:
+File, FileReader, FileWriter, BufferedReader, BufferedWriter, InputStream, OutputStream
+
+4. java.net — Networking Package
+Used for network communication — sockets, URLs, HTTP connections.
+Key classes in java.net:
+URL, URLConnection, HttpURLConnection, Socket, ServerSocket, InetAddress
+
+User-Defined Packages in Java : 
+User-defined packages are custom packages created by the programmer to organize their own classes.
+ Step 1 — Create the Package
+Use the package keyword as the first statement in the Java file.
+package com.myapp;   // Package declaration - must be first line
+ Step 2 — Create Another Class in Same Package
+Step 3 — Use the Package in Main Class
+import com.myapp.Student;   // Import specific class
+import com.myapp.Teacher;   // Import specific class
+// OR: import com.myapp.*;  // Import all classes from package
+
+
+Access Modifiers: Private, Default, Protected, Public --> 
+Access Modifiers control the visibility and accessibility of classes, methods, and variables. Java has four access modifiers:
+
+private → default → protected → public
+(most restrictive)           (least restrictive)
+
+ 1. Private
+Accessible only within the same class. Most restrictive modifier.
+2. Default (No Modifier)
+Accessible within the same package only. No keyword is used — absence of modifier means default.
+ 3. Protected
+Accessible within the same package AND by subclasses (even in different packages).
+4. Public
+Accessible from anywhere — same class, same package, subclass, or any other class.
+
+Importing Packages and Classpath -->
+Ways to Import Packages
+1. Import Specific Class
+Most recommended — imports only what you need.
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+2. Import All Classes (Wildcard Import)
+Imports all classes from a package using *. Convenient but less preferred.
+import java.util.*;   // Imports all classes from java.util
+Wildcard * does not import sub-packages — only top-level classes.
+3. Fully Qualified Name (No Import)
+Use the complete package path directly in code — no import needed.
+ java.util.ArrayList<String> list = new java.util.ArrayList<>();
+ java.util.Scanner sc = new java.util.Scanner(System.in);
+Useful when two packages have a class with the same name.
+4. Static Import
+Imports static members (variables and methods) of a class directly, so you can use them without the class name.
+import static java.lang.Math.*;     // Import all static members
+import static java.lang.System.out; // Import specific static member
+
+Classpath is an environment variable or command-line setting that tells the Java compiler ('javac') and JVM ('java') where to find the compiled '.class' files and packages**
+
+Types of Exceptions: Checked and Unchecked -->
+An exception is an unexpected event or error that occurs during the execution of a program and disrupts its normal flow. When an exception occurs, the program terminates abruptly unless it is properly handled.
+
+Throwable
+├── Error (Unrecoverable - don't handle)
+│   ├── OutOfMemoryError
+│   ├── StackOverflowError
+│   └── VirtualMachineError
+└── Exception (Recoverable - should handle)
+    ├── Checked Exceptions (Compile-time)
+    │   ├── IOException
+    │   ├── SQLException
+    │   ├── FileNotFoundException
+    │   └── ClassNotFoundException
+    └── Unchecked Exceptions (Runtime)
+        └── RuntimeException
+            ├── NullPointerException
+            ├── ArrayIndexOutOfBoundsException
+            ├── ArithmeticException
+            ├── NumberFormatException
+            └── ClassCastException
+
+Checked Exceptions (Compile-Time Exceptions)
+Checked exceptions are exceptions that are checked by the compiler at compile time. If your code might throw a checked exception, you must either handle it with try-catch or declare it with throws. If you don't, the program will not compile.
+
+Common Checked Exceptions:
+IOException : File/stream operation fails
+FileNotFoundException : File does not exist
+SQLException : Database operation fails
+ClassNotFoundException : Class not found at runtime
+InterruptedException : Thread is interrupted
+
+Unchecked Exceptions (Runtime Exceptions)
+Unchecked exceptions are exceptions that occur during program execution and are not checked by the compiler. They are caused by programming mistakes like wrong logic, null references, or wrong array index.
+
+Common Unchecked Exceptions:
+NullPointerException : Using a null reference
+ArithmeticException : Division by zero
+ArrayIndexOutOfBoundsException : Invalid array index
+NumberFormatException : Invalid string-to-number conversion
+ClassCastException :Invalid type casting
+StackOverflowError : Infinite recursion
+StringIndexOutOfBoundsException : Invalid string index
+
+
+try, catch, finally, throw, throws -->
+try Block
+The try block contains code that might throw an exception. If an exception occurs, execution jumps to the matching catch block.
+
+catch Block
+The catch block handles the exception. It receives the exception object and executes recovery code.
+
+finally Block
+The finally block always executes regardless of whether an exception occurred or not. Used for cleanup like closing files or database connections.
+
+You can have multiple catch blocks to handle different types of exceptions separately.
+Only the first matching catch block executes. After that, control goes to finally
+
+ throw Keyword
+The throw keyword is used to manually throw an exception from inside a method or block. You throw a specific exception object.
+
+ throws Keyword
+The throws keyword is used in the method signature to declare that the method might throw one or more checked exceptions. It tells the caller to handle the exception.
+
+
+Custom Exception Classes -->
+
+Custom exceptions (also called user-defined exceptions) are exceptions created by the programmer to handle specific business logic errors that are not covered by Java's built-in exceptions.
+
+How to Create a Custom Exception
+Step 1 — Create a class that extends Exception (checked) or RuntimeException (unchecked).
+Step 2 — Add constructors to pass error messages.
+Step 3 — Throw it using throw keyword.
+
+
+
+
+
+
+
+
+
+
+
