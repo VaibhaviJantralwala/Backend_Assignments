@@ -1,3 +1,4 @@
+package Methods;
 public class staticVariable {
     int id;
     String name;
