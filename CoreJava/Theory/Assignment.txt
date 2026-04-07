@@ -939,12 +939,83 @@ All three work only inside a synchronized block — otherwise IllegalMonitorStat
 Deadlock :
 When two or more threads wait for each other's locks forever — neither can proceed.
 
+Introduction to File I/O in Java (java.io package) -->
+File I/O (Input/Output) is the mechanism by which a Java program reads data from and writes data to files stored on disk.
+A stream is the ordered sequence of data that uses a common characteristics shared by the entire 
+input/output device Stream is serried of byte that used to travel data from one place to another. It is 
+common link between program and other device  
+There are two types of stream  
+1) Byte Streams -- allows a programmer to work with the binary data
+2) Character Streams -- Character stream classes allow you to read and write character and string.
 
+FileReader and FileWriter Classes , BufferedReader and BufferedWriter  -->
 
+FileWriter && FileReader classes --
+Character stream classes used to read and write text files — one character at a time.
+while writing data by FileWriter we have to insert line seperator manually , which is varied from system to system , making it difficult for programmers.
+while reading data using FileReader , we can read data character by character which is not convenient  for programmers.
 
+To overcome such limitations we should go for BufferedReader && BufferedWriter
+BufferedWriter adds buffers to reduce the load of manually entering new line and 
+BufferedReader reads data line by line along with character to character , making it more convenient to the programmers.
 
+Serialization and Deserialization -->
 
+Serialization is the process of converting a Java object into a byte stream so it can be saved to a file or sent over a network.
+Rules:
+Class must implement Serializable interface
+Serializable is a marker interface — no methods!
+Use transient keyword for fields you don't want serialized
 
+Deserialization is the process of converting a byte stream back into a Java object.
+
+Introduction to Collections Framework -->
+The Collections Framework is a unified architecture for storing, retrieving, and manipulating groups of objects in Java.
+Lives in java.util package
+Before Collections — arrays were used — fixed size, no built-in methods 😤
+Collections are dynamic — grow and shrink automatically
+Three pillars:  
+Interfaces — define what to do (List, Set, Map, Queue)
+Classes — define how to do (ArrayList, HashMap etc.)
+Algorithms — utility methods (Collections.sort(), Collections.shuffle())
+
+List, Set, Map, and Queue Interfaces -->
+
+List Interface : An ordered collection that allows duplicate elements. Elements are accessed by their index.
+Example : ArrayList and LinkedList
+
+Set Interface : A collection that does not allow duplicate elements. Most implementations do not maintain order.
+Example : HashSet , TreeSet
+
+Map Interface : A collection of key-value pairs. Keys are unique — values can be duplicate.
+Map is NOT part of Collection interface
+Example : HashMap , TreeMap
+
+Queue Interface : A collection that follows FIFO — First In First Out. Elements added at rear, removed from front.
+
+Iterators and ListIterators -->
+Iterator : An object that allows traversing a collection one element at a time — safely!
+ListIterator : Extended iterator that works only with Lists — supports bidirectional traversal and modification.
+
+Streams in Java (InputStream, OutputStream) -->
+A Stream is a sequence of data flowing from a source to a destination. It is the fundamental mechanism Java uses to perform Input/Output operations.
+Streams live in java.io package
+Two directions:
+InputStream - data flows INTO your program (reading)
+OutputStream - data flows OUT OF your program (writing)
+Two types based on data:
+Byte Streams - raw binary data — images, audio, video, any file
+Character Streams - text data — .txt, .csv, .java files
+
+Reading and Writing Data Using Streams -->
+
+InputStream — Reading Bytes : Abstract class that represents a stream of bytes flowing into the program. Used for reading raw binary data.
+OutputStream — Writing Bytes : Abstract class that represents a stream of bytes flowing out of the program. Used for writing raw binary data.
+
+Handling File I/O Operations -->
+Always use try-with-resources.
+Handle specific exceptions
+Always flush before closing
 
 
 
