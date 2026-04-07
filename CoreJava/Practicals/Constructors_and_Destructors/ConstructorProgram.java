@@ -13,9 +13,10 @@ public class ConstructorProgram{
     }
 
     public static void main(String[] args) {
-        ConstructorProgram cp = new ConstructorProgram();
+        
+        // ConstructorProgram cp = new ConstructorProgram();
 
-        ConstructorProgram cp1 = new ConstructorProgram(22, "abc");
+        // ConstructorProgram cp1 = new ConstructorProgram(22, "abc");
     }
 }
 

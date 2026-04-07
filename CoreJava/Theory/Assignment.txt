@@ -1,4 +1,4 @@
-History of Java -->
+-History of Java -->
 Java was developed by James Gosling and his team at Sun Microsystems in the early 1990s. 
 
 It was originally called "Oak", named after an oak tree outside Gosling's office. 
@@ -861,6 +861,83 @@ Step 1 — Create a class that extends Exception (checked) or RuntimeException (
 Step 2 — Add constructors to pass error messages.
 Step 3 — Throw it using throw keyword.
 
+Introduction to Threads -->
+A thread is the smallest unit of execution within a program. It is a lightweight subprocess that runs independently but shares the same memory space as other threads within the same process.
+
+Java is multithreaded by default — main() itself is a thread
+JVM has at least 2 threads by default — main thread and garbage collector thread
+Threads share heap memory but each thread has its own stack.
+
+Creating Threads by Extending Thread Class or Implementing Runnable Interface -->
+Way 1 — Extending Thread Class
+Way 2 — Implementing Runnable Interface
+Runnable is better — because:
+Java supports single inheritance — extending Thread means you can't extend any other class
+Runnable is a functional interface — can be used with lambdas
+Separation of concern — task logic is separate from thread mechanism
+
+Thread Life Cycle -->
+NEW ──→ RUNNABLE ──→ RUNNING ──→ TERMINATED
+                        │
+                        ↓
+              BLOCKED / WAITING / TIMED_WAITING
+                        │
+                        └──→ RUNNABLE (back again)
+NEW : Thread object created but start() not called yet
+Thread t = new Thread(); // NEW state
+
+RUNNABLE : start() called — thread is ready to run
+CPU may be allocated at any time — scheduler decides
+t.start(); // RUNNABLE state
+
+RUNNING : CPU allocated — run() is executing
+Cannot control directly — JVM scheduler handles it
+
+TERMINATED (DEAD) : run() completed or exception occurred
+A dead thread cannot be restarted!
+
+start() - Starts the thread — never call run() directly!
+run() - Defines the task
+sleep(ms) - Pauses thread — does NOT release lock
+join() - Waits for another thread to finish
+yield() - Gives up CPU — lets other threads run
+interrupt() - Interrupts a thread
+isAlive() - Checks if thread is still running
+getName() - Gets thread name
+setPriority() - Sets priority (1-10)
+
+Synchronization and Inter-thread Communication -->
+Synchronization is a mechanism that ensures multiple threads can safely access shared resources — preventing race conditions.
+
+Without sync:
+Thread1 + Thread2 -> same variable -> corrupted value 
+
+With sync:
+Thread1 -> executes -> Thread2 -> executes -> correct value 
+
+Two ways:
+Synchronized Method:
+synchronized void deposit(int amount) {
+    balance += amount;
+}
+Synchronized Block: <- Preferred!
+void deposit(int amount) {
+    synchronized(this) {
+        balance += amount;
+    }
+}
+Block is better because only the critical section is locked — not the entire method. Better performance!Block is better because only the critical section is locked — not the entire method. Better performance!
+
+Inter-Thread Communication
+A mechanism that allows threads to communicate and coordinate with each other — one thread signals another about when to proceed.
+
+wait() - Releases lock and waits
+notify() - Wakes up one waiting thread
+notifyAll() - Wakes up all waiting threads
+All three work only inside a synchronized block — otherwise IllegalMonitorStateException!
+
+Deadlock :
+When two or more threads wait for each other's locks forever — neither can proceed.
 
 
 

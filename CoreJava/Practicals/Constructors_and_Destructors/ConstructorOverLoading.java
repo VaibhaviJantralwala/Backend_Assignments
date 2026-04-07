@@ -18,9 +18,9 @@ class PaymentMethods{
 public class ConstructorOverLoading {
     public static void main(String[] args) {
         
-        PaymentMethods p = new PaymentMethods(1000);
-        PaymentMethods p1 = new PaymentMethods(5000,"xyc@bank.com");
-        PaymentMethods p2 = new PaymentMethods(7000,45689741);
+        // PaymentMethods p = new PaymentMethods(1000);
+        // PaymentMethods p1 = new PaymentMethods(5000,"xyc@bank.com");
+        // PaymentMethods p2 = new PaymentMethods(7000,45689741);
     }
 }
 
