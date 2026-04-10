@@ -24,8 +24,10 @@ public class fileReader {
             System.out.print((char)i);
             i = fr.read();
         }
+        fr.close();
         }catch (IOException e) {
             System.out.println("Read error: " + e.getMessage());
         }
+        
     }
 }

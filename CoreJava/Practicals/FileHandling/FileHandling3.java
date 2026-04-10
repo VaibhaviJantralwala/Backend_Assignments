@@ -2,10 +2,8 @@ package FileHandling;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 class Student implements Serializable{
@@ -53,8 +51,9 @@ public class FileHandling3 {
             Student s3 = (Student) ois.readObject();
             System.out.println(s3.id+" "+s3.name+" "+s3.marks);
         
+            ois.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         }
     }
