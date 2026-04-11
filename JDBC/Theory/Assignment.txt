@@ -83,7 +83,72 @@ ResultSet is a cursor-based object. It starts before the first row and rs.next()
 Step 7 — Close the Connection
 We should always close JDBC resources in finally block or use try-with-resources introduced in Java 7. Closing order is ResultSet first, then Statement, then Connection. Unclosed connections cause memory leaks and exhaust the connection pool.
 
+Types of JDBC statements :
+>> JDBC provides three types of statement objects — Statement, PreparedStatement, and CallableStatement — each designed for different use cases in database interaction
 
+>> Statement is the simplest of the three. It is used to execute static SQL queries — queries that do not have any parameters. Every time it executes, the SQL is compiled fresh by the database.
+> No parameters supported
+SQL is compiled every single time — no precompilation
+Vulnerable to SQL injection if user input is concatenated
+Used only for simple, fixed queries
 
+>> PreparedStatement is a precompiled SQL statement. The query is compiled once and executed multiple times with different parameter values. It uses placeholders — question marks — for parameters.
+> Precompiled — better performance for repeated execution
+Uses ? as placeholders for parameters
+Completely prevents SQL injection
+Most widely used in real projects
+Parameters are set using setInt(), setString(), setDouble() etc.
+
+>> CallableStatement is used to execute stored procedures in the database. It extends PreparedStatement and supports both input parameters using IN, output parameters using OUT, and both using INOUT.
+> Used specifically for stored procedures
+Supports IN, OUT, and INOUT parameters
+OUT parameters must be registered using registerOutParameter()
+Syntax is — curly brace, call, procedure name, curly brace
+
+Statement
+    └── PreparedStatement
+            └── CallableStatement
+CallableStatement extends PreparedStatement which extends Statement — so CallableStatement has all features of both.
+
+Simple admin query, no user input? → Statement
+User input involved / repeated queries? → PreparedStatement 
+Calling a stored procedure in DB? → CallableStatement
+PreparedStatement is faster in loops or repeated calls because the query plan is cached after first compilation.
+
+Statement — Every Execution:
+SQL String → Parse → Compile → Execute  (repeated every time)
+
+PreparedStatement — First Execution:
+SQL String → Parse → Compile → Cache → Execute
+
+PreparedStatement — Subsequent Executions:
+Cache → Execute  (much faster!)
+
+CRUD in JDBC : 
+>> C → Create  → INSERT
+R → Read    → SELECT
+U → Update  → UPDATE
+D → Delete  → DELETE
+CRUD represents the four fundamental database operations. In JDBC, we perform all four using PreparedStatement — safest and most efficient approach.
+INSERT operation adds a new record to the database table. We use PreparedStatement with executeUpdate() method which returns the number of rows affected
+SELECT operation retrieves records from the database. We use executeQuery() which returns a ResultSet object. We iterate ResultSet using rs.next() which moves the cursor row by row.
+UPDATE operation modifies existing records in the database. Like INSERT, it uses executeUpdate() and returns the number of rows affected. We always use WHERE clause to target specific records — without WHERE it updates ALL rows.
+DELETE operation removes records from the database. It also uses executeUpdate() and returns rows affected. Again, WHERE clause is critical — without it, entire table gets deleted
+
+ResultSet : 
+>> ResultSet is an object that holds the data returned by a SELECT query. It acts like a table in memory with a cursor that points to rows. Initially the cursor is positioned before the first row and we navigate through it using various methods.
+SELECT query executes
+        ↓
+ResultSet object created in memory
+        ↓
+Cursor positioned BEFORE first row
+        ↓
+Navigate using next(), previous(), first(), last()
+
+> By default it is TYPE_FORWARD_ONLY meaning only next() works. For bidirectional navigation we create Statement with TYPE_SCROLL_INSENSITIVE. 
+
+> Navigation methods include next(), previous(), first(), last(), absolute() and relative(). 
+
+> Data is retrieved using typed getters like getString(), getInt(), getDouble() — preferably by column name for readability and safety. Always close ResultSet to free database resources.
 
 
