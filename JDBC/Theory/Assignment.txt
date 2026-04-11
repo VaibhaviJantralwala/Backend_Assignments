@@ -1,0 +1,89 @@
+What is JDBC?
+
+>>JDBC, which stands for Java Database Connectivity, is a standard Java API that allows Java applications to interact with relational databases. It provides a set of interfaces and classes to connect, query, and manipulate databases in a database-independent way.
+
+Why is JDBC Important?
+
+>>JDBC is important because it acts as a bridge between Java applications and databases. Without JDBC, developers would need to write database-specific code for every database. JDBC abstracts that complexity and gives us a unified API — whether you're using MySQL, Oracle, or PostgreSQL.
+
+Also, frameworks like Hibernate and Spring Data JPA are built on top of JDBC, so understanding JDBC gives you a strong foundation.
+
+JDBC Architecture : 
+
+>>Driver Manager
+DriverManager is the entry point of JDBC. It manages the list of registered drivers and is responsible for establishing a connection to the database based on the connection URL provided by the developer.
+
+Driver
+The JDBC Driver is the actual implementation that communicates with the database. Each database vendor provides its own driver. The most commonly used today is the Type 4 driver, also called the Thin Driver, which is written in pure Java and communicates directly with the database over the network.
+
+Connection
+The Connection object represents an active session with the database. It is obtained from DriverManager and is used to create Statement objects. It also manages transactions — we can enable or disable auto-commit through the Connection object.
+
+Statement
+Statement is used to execute SQL queries. JDBC provides three types —
+Statement — for simple static queries
+PreparedStatement — for parameterized queries, which also prevents SQL injection
+CallableStatement — for calling stored procedures
+
+ResultSet
+ResultSet holds the data returned by a SELECT query. It works like a cursor — initially it points before the first row, and we use the next() method to iterate through the results row by row.
+
+Why Different Driver Types Exist?
+
+>>Back in the 90s, databases were everywhere but Java needed a universal way to talk to all of them. Different drivers were designed for different environments, performance needs, and platform constraints. Hence — 4 types.
+
+Type 1 — JDBC-ODBC Bridge Driver
+Java App → JDBC API → JDBC-ODBC Bridge → ODBC Driver → Database
+> Converts JDBC calls into ODBC calls
+> ODBC (Open Database Connectivity) was Microsoft's standard before JDBC
+> Literally a bridge between two worlds
+> was written in C/C++ , windows dependent , slowest of all drivers , ODBC driver must be pre-installed , Completely deprecated . 
+
+Type 2 — Native-API Driver
+Java App → JDBC API → Native-API Driver → Native DB Library (C/C++) → Database
+> Converts JDBC calls into database-specific native API calls
+> Uses vendor-provided native libraries (like Oracle OCI)
+> Part Java, part native code
+> written in java + C/C++ , platform dependent , faster than type 1 , native DB client must be installed 
+
+Type 3 — Network Protocol Driver (Middleware Driver)
+Java App → JDBC API → Type 3 Driver → Middleware Server → Any Database
+> JDBC calls converted to middleware-specific protocol
+> Middleware server then talks to the actual database
+> Also called Pure Java Driver for Database Middleware
+> written in pure java(client side) , platform independent , moderate speed , middleware server installation needed , flexible enough to connect with multiple databases . 
+
+Type 4 — Thin Driver (Direct-to-Database Pure Java Driver)
+Java App → JDBC API → Type 4 Driver → Database (direct socket connection)
+> Converts JDBC calls directly into database-specific network protocol
+> Talks directly to the database over TCP/IP
+> 100% Pure Java — no native code, no middleware
+> platform independent , fastest of all types , installation of jar file is needed in class path .
+
+JDBC connections steps :
+
+>> Step 1 — Import the JDBC Packages
+We import from java.sql package which contains all core JDBC interfaces and classes.
+
+Step 2 — Register the JDBC Driver
+From JDBC 4.0 onwards, driver registration is automatic via the Service Provider Interface. Class.forName() is legacy but still seen in older codebases.
+
+Step 3 — Open a Connection to the Database
+DriverManager.getConnection() takes the URL, username, and password. It returns a Connection object which represents an active session with the database.
+
+Step 4 — Create a Statement
+We always prefer PreparedStatement over Statement because it prevents SQL injection, improves performance through query pre-compilation, and makes code cleaner.
+
+Step 5 — Execute SQL Queries
+executeQuery() is for SELECT, executeUpdate() is for DML operations like INSERT UPDATE DELETE, and execute() is generic for both.
+
+Step 6 — Process the ResultSet
+ResultSet is a cursor-based object. It starts before the first row and rs.next() advances it row by row returning true until no rows remain.
+
+Step 7 — Close the Connection
+We should always close JDBC resources in finally block or use try-with-resources introduced in Java 7. Closing order is ResultSet first, then Statement, then Connection. Unclosed connections cause memory leaks and exhaust the connection pool.
+
+
+
+
+
