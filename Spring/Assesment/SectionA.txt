@@ -1,0 +1,137 @@
+1. Explain the flow of a request in Spring MVC from JSP form to Controller to database and back to view.
+->
+Browser
+   |
+   | 1. User sends request (e.g. /login)
+   ↓
+DispatcherServlet          ← Front Controller (receives ALL requests)
+   |
+   | 2. Finds the right Controller
+   ↓
+Controller                 ← Handles the request, calls business logic
+   |
+   | 3. Interacts with Model (data/service layer)
+   ↓
+Model                      ← Processes data, returns result
+   |
+   | 4. Controller sends data + view name to DispatcherServlet
+   ↓
+DispatcherServlet
+   |
+   | 5. Sends to View (e.g. home.html)
+   ↓
+View                       ← Generates the final HTML page
+   |
+   | 6. Response sent back to browser
+   ↓
+Browser                    ← User sees the result
+
+User sends a request from the browser (e.g. clicks a link or submits a form)
+DispatcherServlet receives the request
+DispatcherServlet finds and calls the correct Controller
+Controller processes the request and interacts with the Model
+Controller sends data to the View
+View generates the final HTML page
+Response is sent back to the browser
+
+2. Explain IoC (Inversion of Control) and Dependency Injection in Spring
+->
+Inversion of Control means the control of creating objects shifts from you (the developer) to Spring.
+Without IoC (normal Java):
+// You are in control — you create everything manually
+Student s = new Student();
+Engine e = new Engine();
+Car car = new Car(e);
+
+With IoC (Spring):
+// Spring is in control — you just ask for what you need
+Car car = context.getBean("car", Car.class);
+// Spring already created Car and Engine and connected them
+
+Dependency Injection (DI) means Spring automatically provides the objects a class needs (its dependencies).
+The Problem Without DI:
+class Car {
+    Engine engine = new Engine();  // Car creates its own Engine — tightly coupled
+}
+The Solution With DI:
+class Car {
+    Engine engine;  // Car doesn't create Engine — Spring provides it
+}
+Car depends on Engine.
+Spring injects (provides) the Engine object into Car automatically.
+This makes code loosely coupled — easy to change, test, and maintain.
+
+3. Differentiate between BeanFactory and ApplicationContext. 
+->
+ApplicationContext is the main interface to interact with the Spring container.
+// Loading beans from an XML config file
+ApplicationContext context =
+    new ClassPathXmlApplicationContext("config.xml");
+
+// Getting a bean from the container
+Student s = context.getBean("student", Student.class);
+
+You tell it where the configuration is (XML file, annotation, or Java class).
+It creates all the beans and wires them together.
+You can then ask it for any bean by name or type.
+
+BeanFactory creates, manages and provides all the objects (beans) your application needs
+Application Context is just upgraded version of BeanFactory
+
+4. Explain how JdbcTemplate simplifies JDBC operations
+->
+JdbcTemplate simplifies JDBC in these ways:
+1. No manual connection management
+Plain JDBC requires you to open and close connections manually. JdbcTemplate handles it automatically.
+2. No repetitive exception handling
+Plain JDBC throws checked SQLException everywhere. JdbcTemplate converts them into unchecked Spring exceptions — cleaner code.
+3. No boilerplate resource cleanup
+Closing ResultSet, PreparedStatement, Connection — JdbcTemplate does all of this for you automatically.
+4. Simple query execution
+// Plain JDBC — 15+ lines
+// JdbcTemplate — just this:
+jdbcTemplate.query("SELECT * FROM projects",
+    (rs, row) -> new Project(rs.getLong("id"), rs.getString("project_name")));
+5. Built-in result mapping
+Using RowMapper you can directly map database rows to Java objects cleanly.
+
+5. Explain the role of DispatcherServlet in Spring MVC.
+->
+The DispatcherServlet is the most important component of Spring MVC.
+
+It works as the Front Controller — ALL requests come through it first.
+It decides which Controller should handle each request.
+It coordinates the entire flow from request to response.
+
+User requests /login
+       ↓
+DispatcherServlet receives it
+       ↓
+Sends it to LoginController
+       ↓
+LoginController handles it and returns a response
+
+6. Explain constructor injection vs setter injection
+->
+Constructor Injection
+The dependency is provided through the constructor when the object is created.
+class Car {
+    Engine engine;
+
+    public Car(Engine engine) {      // Engine is injected via constructor
+        this.engine = engine;
+    }
+}
+Best when the dependency is required (mandatory).
+
+Setter Injection
+The dependency is provided through a setter method after the object is created.
+class Car {
+    Engine engine;
+
+    public void setEngine(Engine engine) {   // Engine is injected via setter
+        this.engine = engine;
+    }
+}
+Best when the dependency is optional (can be changed later).
+
