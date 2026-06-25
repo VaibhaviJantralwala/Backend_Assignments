@@ -1,0 +1,51 @@
+Explain why REST-based AI APIs are suitable for Java backend integration ? 
+> Standard HTTP usage – REST works over normal HTTP methods (GET, POST, etc.) using JSON. 
+Java already has built-in support for this through HttpClient, RestTemplate, or WebClient (Spring) — so no extra protocol setup is needed.
+Works independent of backend language – Since REST just sends/receives JSON over HTTP, the AI service doesn't care if your backend is Java, Python, or anything else. This keeps your Java app and the AI provider loosely connected — changes on one side don't break the other.
+Strong Java tooling support – Spring Boot (commonly used for Java backends) has ready-made tools to call REST APIs (RestTemplate, WebClient, Feign) and convert JSON to Java objects easily using Jackson. So you don't need to build this from scratch.
+Stateless = better for scaling – REST doesn't store session info between requests.
+This fits naturally with how Java backends (especially Spring Boot) handle many requests at once using multiple threads — no extra complexity from maintaining state.
+Simple security & error handling – REST APIs use standard methods like API keys or OAuth2 for authentication, and HTTP status codes for errors. Java already has built-in ways to handle these (@ControllerAdvice, interceptors), so it fits right in.
+Fits microservice architecture – Most modern Java backends are built as microservices. REST APIs naturally fit this style — the AI service can just be treated as one more external service your app talks to.
+
+Explain how JSON parsing fits into AI response handling.
+AI APIs return JSON, not raw text – Most AI APIs (OpenAI, Anthropic, etc.) send responses wrapped in JSON, containing the actual answer along with metadata (tokens used, model name, status, etc.). 
+You can't just use the raw response directly — you need to extract the relevant part.
+Parsing converts JSON into usable objects – In Java, libraries like Jackson or Gson parse this JSON string into Java objects (POJOs) or generic maps, so your code can access fields like response.getContent() instead of manually searching through text.
+Handles nested/structured data – AI responses often have nested structures (e.g., choices[0].message.content in OpenAI's format). JSON parsing libraries let you map this directly into structured Java classes, making it easy to navigate without manual string splitting.
+Enables type-safe data handling – Once parsed into Java objects, you get type safety — e.g., a String for the answer, an int for token count — reducing bugs compared to manually parsing raw strings.
+Supports error and status checking – JSON responses usually include status codes or error objects. Parsing lets your code easily check if (response.getError() != null) and handle failures gracefully, instead of relying on fragile string matching.
+
+Explain how environment variables protect API keys. 
+> Keys stay out of source code – Instead of hardcoding the API key directly in your Java code (e.g., String apiKey = "sk-abc123";), you store it as an environment variable on the system. Your code just reads it at runtime — the key itself never appears in the codebase.
+Prevents accidental exposure in version control – If the key isn't in the code, it can't accidentally get pushed to GitHub or any other repo. This is a common way real leaks happen — someone commits a hardcoded key by mistake.
+Different keys per environment – You can use different values for development, testing, and production (e.g., a sandbox key locally, a production key on the server) without changing any code — just set different environment variables in each environment.
+Limits access to authorized processes only – Environment variables are scoped to the process/session that sets them. Random people browsing your code (or even your repo) can't see the actual key value — only whoever has access to the server/environment can.
+Easy to rotate without code changes – If a key gets compromised, you just update the environment variable value and restart the app — no need to touch or redeploy code.
+Works well with Java config tools – In Spring Boot, you can directly map environment variables to application.properties or application.yml using placeholders like ${API_KEY}, so your app picks them up automatically without manual parsing.
+
+Explain how Spring Boot REST endpoints expose AI responses.
+> Controller – defines endpoint (e.g. @PostMapping("/ask")) to receive client requests.
+Service layer – calls the AI API using RestTemplate/WebClient/Feign.
+Parsing – AI's JSON response is converted into Java objects (Jackson).
+Custom response – controller wraps parsed data into your own DTO and sends it back to client.
+Error handling – catches API failures, returns proper HTTP status codes (500, 429, etc.).
+Sync/async – can respond immediately or use reactive/async calls for slow AI responses.
+
+Explain how prompt templates improve chatbot consistency.
+> Fixed structure – Prompt templates define a consistent format (system instructions + user input) instead of writing prompts ad-hoc each time, so responses follow the same pattern.
+Predictable tone/behavior – By baking in instructions (e.g., "Always answer politely and in 2 sentences"), the AI's responses stay consistent in style across different users/sessions.
+Reusable placeholders – Templates use variables (e.g., {user_input}, {context}) that get filled dynamically, so the core instructions stay the same while only the specific input changes.
+Reduces prompt drift – Without templates, developers might phrase prompts slightly differently each time, causing inconsistent AI behavior. Templates lock in the wording that's known to work well.
+Easier to test and improve – Since the structure is fixed, you can test and refine one template instead of debugging scattered, inconsistent prompts across the codebase.
+Supports guardrails – Templates can include constraints (e.g., "Don't answer outside this topic") directly in the structure, making it easier to keep chatbot behavior within intended limits.
+
+Explain error handling strategies when AI APIs fail. 
+> Catch specific exceptions – Wrap AI API calls in try-catch blocks to handle network errors, timeouts, or invalid responses separately instead of one generic catch.
+Use HTTP status codes – Check response codes (e.g., 429 = rate limit, 401 = auth error, 500 = server error) to decide how to respond — retry, alert, or fail gracefully.
+Retry with backoff – For transient failures (timeouts, rate limits), implement retry logic with exponential backoff instead of hammering the API repeatedly.
+Fallback responses – If the AI API is down, return a default/cached response or a friendly error message instead of breaking the whole app.
+Timeouts – Set reasonable timeout limits on API calls so a slow/hanging AI response doesn't block your Java threads indefinitely.
+Circuit breaker pattern – Use tools like Resilience4j in Spring Boot to temporarily stop calling a failing API after repeated failures, preventing cascading failures in your system.
+Logging & monitoring – Log failures with enough context (request ID, error type) so issues can be debugged later, and set up alerts for repeated failures.
+Don't expose raw errors to clients – Catch internal exceptions and return clean, safe error messages/status codes to the frontend instead of leaking stack traces or provider-specific error details.
