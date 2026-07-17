@@ -1,0 +1,71 @@
+Task 1: Insert 5 Documents into playlists Collection
+db.playlists.insertMany([
+    {
+        name: "Top Hits",
+        likes: 1500,
+        genre: "Pop",
+        followers: 8000
+    },
+    {
+        name: "Hip-Hop Beats",
+        likes: 2200,
+        genre: "Hip-Hop",
+        followers: 6500
+    },
+    {
+        name: "Chill Vibes",
+        likes: 700,
+        genre: "Lo-Fi",
+        followers: 1800
+    },
+    {
+        name: "Rock Legends",
+        likes: 1200,
+        genre: "Rock",
+        followers: 4500
+    },
+    {
+        name: "Pop Party",
+        likes: 900,
+        genre: "Pop",
+        followers: 3000
+    }
+])
+
+Task 2: Find Playlists with More Than 1000 Followers
+db.playlists.find(
+    { followers: { $gt: 1000 } },
+    { _id: 0, name: 1, followers: 1 }
+)
+
+Task 3: Find Pop or Hip-Hop Playlists and Sort by Likes
+db.playlists.find({
+    genre: { $in: ["Pop", "Hip-Hop"] }
+}).sort({
+    likes: -1
+})
+
+Task 4: Find Playlists with Likes Between 500 and 2000
+db.playlists.find({
+    likes: {
+        $gte: 500,
+        $lte: 2000
+    }
+})
+.sort({
+    followers: -1
+})
+.limit(3)
+
+Task 5: Find Trending Playlists
+db.playlists.find(
+    {
+        followers: { $gt: 5000 },
+        likes: { $gte: 1000 }
+    },
+    {
+        _id: 0,
+        name: 1,
+        genre: 1
+    }
+)

@@ -1,0 +1,49 @@
+Task 1: Create restaurants Collection and Insert One Document
+db.restaurants.insertOne({
+    name: "Burger Hub",
+    cuisine: "Fast Food",
+    location: "Ahmedabad",
+    rating: 4.5
+})
+
+Task 2: Insert 3 Documents into movies Collection
+db.movies.insertMany([
+    {
+        title: "Jawan",
+        genre: "Action",
+        releaseYear: 2023,
+        imdbRating: 7.0
+    },
+    {
+        title: "Animal",
+        genre: "Action/Drama",
+        releaseYear: 2023,
+        imdbRating: 6.2
+    },
+    {
+        title: "Stree 2",
+        genre: "Comedy/Horror",
+        releaseYear: 2024,
+        imdbRating: 7.5
+    }
+])
+
+Task 3: Find Products with Price Less Than 1000
+db.flipkart_products.find({
+    price: { $lt: 1000 }
+})
+
+Task 4: Update Restaurant Rating
+db.restaurants.updateOne(
+    { name: "Burger Hub" },
+    {
+        $set: {
+            rating: 4.7
+        }
+    }
+)
+
+Task 5: Delete All Cancelled Orders
+db.orders.deleteMany({
+    status: "cancelled"
+})

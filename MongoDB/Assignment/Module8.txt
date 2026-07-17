@@ -1,0 +1,53 @@
+Task 1: Create the insta_clone Database
+use insta_clone
+
+Task 2: Create User storyAdmin with dbAdmin Role
+db.createUser({
+    user: "storyAdmin",
+    pwd: "Story@123",
+    roles: [
+        {
+            role: "dbAdmin",
+            db: "insta_clone"
+        }
+    ]
+})
+
+Task 3: Create Read-Only User feedViewer
+db.createUser({
+    user: "feedViewer",
+    pwd: "Viewer@123",
+    roles: [
+        {
+            role: "read",
+            db: "insta_clone"
+        }
+    ]
+})
+
+Task 4: Log in as feedViewer and Try to Insert a Document
+
+Connect using:
+
+mongosh -u feedViewer -p Viewer@123 --authenticationDatabase insta_clone
+
+Try to insert a document:
+
+db.posts.insertOne({
+    username: "vaibhavi",
+    caption: "My first post!"
+})
+
+Expected Error:
+
+MongoServerError: not authorized on insta_clone to execute command {
+  insert: "posts",
+  documents: [ ... ]
+}
+Explanation
+
+The error occurs because feedViewer has the read role, which only permits reading data. It does not have permission to insert, update, or delete documents.
+
+Task 5: List All Users
+db.getUsers()
+

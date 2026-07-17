@@ -1,0 +1,130 @@
+1. Why Node.js is preferred for real-time backend APIs
+Node.js runs on a single-threaded event loop with non-blocking I/O, which happens to be a great match for real-time workloads (chat apps, live dashboards, notifications, gaming servers) for a few concrete reasons:
+
+High concurrency, low overhead: Traditional multi-threaded servers spin up a new thread (or process) per connection, which costs memory and CPU for context-switching. Node handles thousands of concurrent connections on one thread because it doesn't block waiting on I/O (database calls, network requests, file reads) — it delegates that work and moves on.
+Same language front-to-back: JavaScript on both client and server reduces context-switching for developers and enables easy JSON handling (JS objects ↔ JSON is nearly free).
+First-class WebSocket support: Libraries like Socket.io are built for Node's event-driven model, making persistent, bidirectional connections (needed for real-time updates) natural to implement.
+npm ecosystem: Massive package availability for real-time tooling (Express, Socket.io, Redis clients for pub/sub, etc.)
+
+The tradeoff worth knowing (good to mention in an assignment for balance): Node is not great for CPU-heavy tasks (image processing, heavy computation) because that blocks the single thread. It shines specifically for I/O-heavy, real-time, many-concurrent-connection scenarios.
+
+2. Non-blocking I/O — file read example
+Blocking (synchronous) version:
+const fs = require('fs');
+
+console.log('Start reading file...');
+const data = fs.readFileSync('largefile.txt', 'utf8'); // execution STOPS here
+console.log(data);
+console.log('This runs only after the file is fully read');
+
+Here, the entire program halts until the disk read finishes. If this were a server handling multiple users, every other request would be stuck waiting too.
+Non-blocking (asynchronous) version:
+
+const fs = require('fs');
+
+console.log('Start reading file...');
+fs.readFile('largefile.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log(data); // runs later, when file read completes
+});
+console.log('This runs immediately, without waiting for the file');
+
+Node hands the file-read request off to the libuv thread pool (or OS-level async APIs), continues executing the rest of your code immediately, and only comes back to run the callback once the file data is ready — via the event loop. So the "Start reading file..." and "This runs immediately..." logs print right away, and the file content prints whenever the disk actually finishes reading it (could be milliseconds later). The main thread was never blocked.
+
+3. How Promises prevent callback hell
+Callback hell happens when you nest async operations inside each other's callbacks:
+getUser(id, (user) => {
+  getOrders(user.id, (orders) => {
+    getOrderDetails(orders[0].id, (details) => {
+      getShipping(details.id, (shipping) => {
+        console.log(shipping); // 4 levels deep, hard to read/debug/error-handle
+      });
+    });
+  });
+});
+This is nicknamed the "pyramid of doom" — error handling gets duplicated at every level, and the logic becomes unreadable.
+Promises flatten this into a chain:
+
+getUser(id)
+  .then(user => getOrders(user.id))
+  .then(orders => getOrderDetails(orders[0].id))
+  .then(details => getShipping(details.id))
+  .then(shipping => console.log(shipping))
+  .catch(err => console.error('Something failed:', err)); // ONE error handler for the whole chain
+Why this works:
+
+Each .then() returns a new Promise, so operations chain linearly instead of nesting.
+A single .catch() at the end handles errors from any step in the chain — no repeated error-handling logic.
+With async/await (syntactic sugar over Promises), it reads almost like synchronous code:
+async function getShippingInfo(id) {
+  try {
+    const user = await getUser(id);
+    const orders = await getOrders(user.id);
+    const details = await getOrderDetails(orders[0].id);
+    const shipping = await getShipping(details.id);
+    return shipping;
+  } catch (err) {
+    console.error('Something failed:', err);
+  }
+}
+
+
+4. MongoDB document structure for product catalogs
+MongoDB stores data as BSON documents (binary JSON) inside collections, instead of rows in tables. For a product catalog, this maps naturally to how products actually look:
+
+{
+  _id: ObjectId("64f1a2b3c4d5e6f7a8b9c0d1"),
+  name: "Wireless Headphones",
+  sku: "WH-1001",
+  price: 2499,
+  currency: "INR",
+  category: "Electronics",
+  brand: "SoundWave",
+  stock: 150,
+  attributes: {          // embedded sub-document
+    color: "Black",
+    batteryLife: "30 hours",
+    connectivity: "Bluetooth 5.2"
+  },
+  variants: [             // embedded array — sizes/colors as variants
+    { sku: "WH-1001-BLK", color: "Black", stock: 80 },
+    { sku: "WH-1001-WHT", color: "White", stock: 70 }
+  ],
+  reviews: [
+    { user: "Aditi", rating: 5, comment: "Great sound quality" },
+    { user: "Rahul", rating: 4, comment: "Battery could be better" }
+  ],
+  tags: ["audio", "wireless", "bestseller"],
+  createdAt: ISODate("2025-01-15T10:00:00Z")
+}
+
+Why this structure works well for a catalog specifically:
+
+Schema flexibility: Different product categories (electronics vs. clothing vs. groceries) have wildly different attributes. In SQL you'd need sparse columns or an EAV pattern; in MongoDB, each document just has whatever fields make sense for that product.
+Embedding vs. referencing: Data that's always read together (variants, attributes) is embedded directly in the document — one read, no joins. Data that grows unbounded or is shared across documents (like full customer order history) would instead be referenced via _id in a separate collection, to avoid documents ballooning in size.
+Fast reads: Since related data lives in one document, fetching a full product page is a single query instead of multiple JOINs across tables.
+
+5. Why aggregation pipelines are essential for reports
+Aggregation pipelines let you process data through a sequence of stages ($match, $group, $sort, $project, etc.), each transforming the output of the previous one — similar to a Unix pipe.
+Example — "total revenue per category, this month":
+
+db.products.aggregate([
+  { $match: { createdAt: { $gte: ISODate("2026-07-01") } } },  // filter
+  { $group: {
+      _id: "$category",
+      totalRevenue: { $sum: { $multiply: ["$price", "$quantitySold"] } },
+      avgPrice: { $avg: "$price" },
+      count: { $sum: 1 }
+  }},
+  { $sort: { totalRevenue: -1 } }
+])
+
+Why this is essential (not just convenient) for reporting:
+
+Computation happens in the database, not the application: Without aggregation, you'd pull raw documents into your Node app and loop through them in JS to sum/average/group — slow, memory-heavy, and doesn't scale past a small dataset.
+Reduces network transfer: Only the final, already-computed result (a handful of grouped rows) crosses the wire, not thousands of raw documents.
+Multi-stage transformations: Real reports need filtering + grouping + sorting + reshaping together — exactly what a pipeline is built for, in one query instead of several round trips.
+Leverages indexes: Early $match stages can use indexes to narrow data before the expensive $group work happens, keeping it performant at scale.
+
+
+

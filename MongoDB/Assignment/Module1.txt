@@ -1,0 +1,42 @@
+Task 1 : 
+Create Database foodieApp
+use foodieApp
+
+Task 2:
+Create restaurants Collection and Insert One Document
+db.restaurants.insertOne({
+    name: "Spice Villa",
+    cuisine: "North Indian",
+    rating: 4.5,
+    location: "Ahmedabad"
+})
+
+Task 3 : 
+Insert Three More Restaurant Documents
+db.restaurants.insertMany([
+    {
+        name: "Pizza Hub",
+        cuisine: "Italian",
+        rating: 4.3,
+        location: "Surat",
+        menu: ["Margherita Pizza", "Garlic Bread", "Pasta"]
+    },
+    {
+        name: "Sushi World",
+        cuisine: "Japanese",
+        rating: 4.7,
+        location: "Mumbai",
+        menu: ["Sushi", "Ramen", "Tempura"]
+    },
+    {
+        name: "Burger Point",
+        cuisine: "Fast Food",
+        rating: 4.1,
+        location: "Vadodara",
+        menu: ["Cheese Burger", "French Fries", "Cold Coffee"]
+    }
+])
+
+Task 4 : 
+Retrieve All Documents
+db.restaurants.find()

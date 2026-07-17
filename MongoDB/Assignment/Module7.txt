@@ -1,0 +1,85 @@
+Task 1: Create restaurants Collection and Insert 10 Documents
+db.restaurants.insertMany([
+    { name: "Pizza Hut", cuisine: "Italian", location: "Surat", rating: 4.5 },
+    { name: "La Pino'z", cuisine: "Italian", location: "Ahmedabad", rating: 4.3 },
+    { name: "Domino's", cuisine: "Italian", location: "Vadodara", rating: 4.1 },
+    { name: "Mainland China", cuisine: "Chinese", location: "Ahmedabad", rating: 4.6 },
+    { name: "China Town", cuisine: "Chinese", location: "Surat", rating: 4.2 },
+    { name: "Spice Villa", cuisine: "North Indian", location: "Ahmedabad", rating: 4.4 },
+    { name: "Rajwadi", cuisine: "Gujarati", location: "Rajkot", rating: 4.5 },
+    { name: "Cafe Coffee Day", cuisine: "Cafe", location: "Surat", rating: 4.0 },
+    { name: "Burger Hub", cuisine: "Fast Food", location: "Ahmedabad", rating: 4.3 },
+    { name: "Italian Delight", cuisine: "Italian", location: "Ahmedabad", rating: 4.8 }
+])
+
+Task 2: Create Single Field Index and Compare Query Time
+Before Creating Index
+db.restaurants.find({
+    cuisine: "Italian"
+}).explain("executionStats")
+
+Create Index
+db.restaurants.createIndex({
+    cuisine: 1
+})
+
+After Creating Index
+db.restaurants.find({
+    cuisine: "Italian"
+}).explain("executionStats")
+
+Task 3: Create Compound Index
+db.restaurants.createIndex({
+    cuisine: 1,
+    location: 1
+})
+
+Query:
+
+db.restaurants.find({
+    cuisine: "Chinese",
+    location: "Ahmedabad"
+})
+
+Check whether index is used:
+
+db.restaurants.find({
+    cuisine: "Chinese",
+    location: "Ahmedabad"
+}).explain("executionStats")
+
+In the output, look for:
+
+IXSCAN
+
+If you see IXSCAN, the compound index is being used.
+
+Task 4: Drop the Cuisine Index
+
+List indexes:
+
+db.restaurants.getIndexes()
+
+Drop the single-field index:
+
+db.restaurants.dropIndex({
+    cuisine: 1
+})
+
+Run the query again:
+
+db.restaurants.find({
+    cuisine: "Italian"
+}).explain("executionStats")
+
+Task 5: Query to Fetch Top 5 Pizza Restaurants in Surat
+db.restaurants.find(
+    {
+        cuisine: "Pizza",
+        location: "Surat"
+    }
+)
+.sort({
+    rating: -1
+})
+.limit(5)

@@ -1,0 +1,111 @@
+Task 1: Find Orders Placed in the Last 30 Days ($match)
+db.orders.aggregate([
+    {
+        $match: {
+            orderDate: {
+                $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+            }
+        }
+    }
+])
+
+Task 2: Calculate Total Amount Spent by Each User ($group)
+
+Assuming each order document contains an items array like:
+
+items: [
+    { product: "Laptop", quantity: 2, price: 50000 },
+    { product: "Mouse", quantity: 1, price: 1000 }
+]
+db.orders.aggregate([
+    {
+        $unwind: "$items"
+    },
+    {
+        $group: {
+            _id: "$userId",
+            totalAmountSpent: {
+                $sum: {
+                    $multiply: [
+                        "$items.quantity",
+                        "$items.price"
+                    ]
+                }
+            }
+        }
+    }
+])
+
+Task 3: Top 3 Highest-Rated Cafes in Ahmedabad
+db.restaurants.aggregate([
+    {
+        $match: {
+            cuisine: "Cafe",
+            city: "Ahmedabad"
+        }
+    },
+    {
+        $sort: {
+            rating: -1
+        }
+    },
+    {
+        $limit: 3
+    }
+])
+
+Task 4: Total Box Office Collection by Genre
+db.movies.aggregate([
+    {
+        $group: {
+            _id: "$genre",
+            totalCollection: {
+                $sum: "$boxOffice"
+            }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            genre: "$_id",
+            totalCollection: 1
+        }
+    }
+])
+
+Task 5: Daily Sales Report for the Last Week
+db.payments.aggregate([
+    {
+        $match: {
+            paymentDate: {
+                $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+            }
+        }
+    },
+    {
+        $group: {
+            _id: {
+                $dateToString: {
+                    format: "%Y-%m-%d",
+                    date: "$paymentDate"
+                }
+            },
+            totalSales: {
+                $sum: "$amount"
+            }
+        }
+    },
+    {
+        $sort: {
+            _id: 1
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            date: "$_id",
+            totalSales: 1
+        }
+    }
+])
+

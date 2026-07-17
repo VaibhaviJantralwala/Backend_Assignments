@@ -1,0 +1,68 @@
+Task 1: Update Genre Using $set
+
+Update the playlist "Evening Vibes" so that its genre becomes "Chill".
+
+db.playlists.updateOne(
+    { name: "Evening Vibes" },
+    {
+        $set: {
+            genre: "Chill"
+        }
+    }
+)
+
+Task 2: Remove temporaryOffer Field Using $unset
+
+Remove the temporaryOffer field from all restaurants where the offer has expired.
+
+db.restaurants.updateMany(
+    { offerExpired: true },
+    {
+        $unset: {
+            temporaryOffer: ""
+        }
+    }
+)
+
+Task 3: Add a Song Using $push
+
+Add "Calm Waters" to the songs array of the playlist with _id: 101.
+
+db.playlists.updateOne(
+    { _id: 101 },
+    {
+        $push: {
+            songs: "Calm Waters"
+        }
+    }
+)
+
+Task 4: Add Tag Only Once Using $addToSet
+
+Add the tag "trending" only if it is not already present.
+
+db.products.updateOne(
+    { SKU: "F12345" },
+    {
+        $addToSet: {
+            tags: "trending"
+        }
+    }
+)
+
+Task 5: Decrease Stock Using $inc (Without Going Below Zero)
+
+Decrease stock by 1 only if stock is greater than 0.
+
+db.products.updateOne(
+    {
+        name: "Wireless Earbuds",
+        stock: { $gt: 0 }
+    },
+    {
+        $inc: {
+            stock: -1
+        }
+    }
+)
+

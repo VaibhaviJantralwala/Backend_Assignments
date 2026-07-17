@@ -1,0 +1,30 @@
+Task 1: Create and Switch to Database
+use insta_clone_db
+
+Task 2: Create posts Collection
+db.createCollection("posts")
+
+Verify:
+show collections
+
+Task 3: Create stories Collection and Insert a Sample Document
+db.createCollection("stories")
+db.stories.insertOne({
+    username: "vaibhavi",
+    image_url: "https://example.com/story1.jpg",
+    timestamp: new Date()
+})
+
+Task 4: Drop stories Collection and Verify
+
+Drop the collection:
+db.stories.drop()
+
+Verify:
+show collections
+
+Task 5: Drop Entire Database and Verify
+
+db.dropDatabase()
+
+show dbs
