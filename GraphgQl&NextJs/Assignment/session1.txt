@@ -1,0 +1,40 @@
+Task1:
+query {
+  pokemons(first: 3) {
+    id
+    name
+    image
+  }
+}
+
+Task2:
+query {
+  pokemon(name: "pikachu") {
+    name
+    types
+    maxHP
+  }
+}
+
+Task3:
+No over-fetching — A REST endpoint like /restaurant/123 returns the entire restaurant object (menu, reviews, address, owner info, hours…) whether you need it or not. GraphQL lets the app request just { name, rating, deliveryTime } and gets exactly that, nothing more.
+No under-fetching / no waterfall requests — In REST, showing a Flipkart product page with price, seller info, and reviews often means hitting /product/123, then /sellers/456, then /reviews?product=123 — three round trips. GraphQL nests all of that into one query, one request.
+Single flexible endpoint vs many rigid ones — REST APIs tend to multiply endpoints as needs grow (/product, /product/summary, /product/lite for mobile). GraphQL keeps one endpoint and lets each client (web, Android app, low-bandwidth mode) shape its own query — handy for something like Zomato needing a lighter payload on 2G connections.
+
+Task4:
+query {
+  movie(title: "Inception") {
+    title
+    poster
+  }
+}
+
+Task5:
+mutation AddPlaylist {
+  addPlaylist(name: "Late Night Coding", isPublic: true, userId: "u123") {
+    id
+    name
+    createdAt
+  }
+}
+

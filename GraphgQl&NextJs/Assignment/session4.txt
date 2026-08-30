@@ -1,0 +1,135 @@
+Task1 : 
+import { gql } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
+import { useState } from "react";
+
+const ADD_SONG = gql`
+  mutation AddSong($title: String!, $artist: String!) {
+    addSong(title: $title, artist: $artist) {
+      id
+      title
+      artist
+    }
+  }
+`;
+
+function AddSongForm() {
+  const [title, setTitle] = useState("");
+  const [artist, setArtist] = useState("");
+  const [addSong] = useMutation(ADD_SONG);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addSong({ variables: { title, artist } });
+    setTitle("");
+    setArtist("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
+      <input value={artist} onChange={(e) => setArtist(e.target.value)} placeholder="Artist" />
+      <button type="submit">Add Song</button>
+    </form>
+  );
+}
+
+export default AddSongForm;
+
+Task2 : 
+const UPDATE_SONG = gql`
+  mutation UpdateSong($id: ID!, $title: String!) {
+    updateSong(id: $id, title: $title) {
+      id
+      title
+    }
+  }
+`;
+
+function EditSongTitle({ song }) {
+  const [title, setTitle] = useState(song.title);
+  const [updateSong] = useMutation(UPDATE_SONG);
+
+  const handleSave = () => {
+    updateSong({ variables: { id: song.id, title } });
+  };
+
+  return (
+    <div>
+      <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <button onClick={handleSave}>Save</button>
+    </div>
+  );
+}
+
+Task3 : 
+const DELETE_SONG = gql`
+  mutation DeleteSong($id: ID!) {
+    deleteSong(id: $id) {
+      id
+    }
+  }
+`;
+
+function DeleteSongButton({ songId }) {
+  const [deleteSong] = useMutation(DELETE_SONG, {
+    update(cache) {
+      cache.evict({ id: cache.identify({ __typename: "Song", id: songId }) });
+      cache.gc();
+    },
+  });
+
+  return <button onClick={() => deleteSong({ variables: { id: songId } })}>Delete</button>;
+}
+
+Task4 : 
+function AddSongForm() {
+  const [title, setTitle] = useState("");
+  const [artist, setArtist] = useState("");
+  const [addSong] = useMutation(ADD_SONG, {
+    update(cache, { data: { addSong } }) {
+      cache.modify({
+        fields: {
+          songs(existingSongs = []) {
+            const newSongRef = cache.writeFragment({
+              data: addSong,
+              fragment: gql`
+                fragment NewSong on Song {
+                  id
+                  title
+                  artist
+                }
+              `,
+            });
+            return [...existingSongs, newSongRef];
+          },
+        },
+      });
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addSong({
+      variables: { title, artist },
+      optimisticResponse: {
+        addSong: {
+          __typename: "Song",
+          id: "temp-id-" + Date.now(),
+          title,
+          artist,
+        },
+      },
+    });
+    setTitle("");
+    setArtist("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
+      <input value={artist} onChange={(e) => setArtist(e.target.value)} placeholder="Artist" />
+      <button type="submit">Add Song</button>
+    </form>
+  );
+}

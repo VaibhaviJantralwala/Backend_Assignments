@@ -1,0 +1,66 @@
+Task1:
+npx create-react-app apollo-countries-app
+cd apollo-countries-app
+npm install @apollo/client graphql
+App.jsx:
+import { ApolloClient } from "@apollo/client";
+
+console.log("ApolloClient:", ApolloClient);
+
+function App() {
+  return <div>Check your console for the ApolloClient log</div>;
+}
+
+export default App;
+
+Task2:
+// index.js
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
+import App from "./App";
+
+const client = new ApolloClient({
+  uri: "https://countries.trevorblades.com/",
+  cache: new InMemoryCache(),
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
+);
+
+Task3:
+// App.js
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
+
+const GET_COUNTRIES = gql`
+  query GetCountries {
+    countries {
+      name
+    }
+  }
+`;
+
+function App() {
+  const { data } = useQuery(GET_COUNTRIES);
+
+  return (
+    <ul>
+      {data?.countries.map((country) => (
+        <li key={country.name}>{country.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+
+Task4:
+ApolloProvider is a thin wrapper around React Context. When you wrap <App /> in <ApolloProvider client={client}>, it creates a Context Provider that stashes your configured ApolloClient instance (cache, network link, endpoint URI, etc.) into React's component tree at the root.
+
+From there, any descendant component — no matter how deeply nested — can call useQuery, useMutation, or useApolloClient and those hooks will internally call useContext to reach up and grab that same client instance, without you manually passing client as a prop down through every layer. That's the whole point: it solves "prop drilling" for something every data-fetching component needs. It also means there's a single shared cache — so if two components query overlapping data, Apollo can dedupe requests and keep both in sync automatically.

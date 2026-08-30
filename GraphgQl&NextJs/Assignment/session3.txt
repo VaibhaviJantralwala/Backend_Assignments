@@ -1,0 +1,125 @@
+Task1 : 
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
+
+const GET_RESTAURANTS = gql`
+  query GetRestaurants {
+    restaurants {
+      id
+      name
+      cuisine
+    }
+  }
+`;
+
+function RestaurantList() {
+  const { data } = useQuery(GET_RESTAURANTS);
+
+  return (
+    <ul>
+      {data?.restaurants.map((r) => (
+        <li key={r.id}>{r.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default RestaurantList;
+
+Task2 : 
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
+
+const GET_PRODUCTS = gql`
+  query GetProducts {
+    products {
+      id
+      name
+      price
+      image
+    }
+  }
+`;
+
+function ProductList() {
+  const { data } = useQuery(GET_PRODUCTS);
+
+  return (
+    <div className="product-grid">
+      {data?.products.map((p) => (
+        <div className="product-card" key={p.id}>
+          <img src={p.image} alt={p.name} />
+          <h3>{p.name}</h3>
+          <p>₹{p.price}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default ProductList;
+
+Task3 : 
+function ProductList() {
+  const { data, loading, error } = useQuery(GET_PRODUCTS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  return (
+    <div className="product-grid">
+      {data.products.map((p) => (
+        <div className="product-card" key={p.id}>
+          <img src={p.image} alt={p.name} />
+          <h3>{p.name}</h3>
+          <p>₹{p.price}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+Task4 : 
+// RestaurantCard.js
+function RestaurantCard({ restaurant }) {
+  return (
+    <li>
+      <h4>{restaurant.name}</h4>
+      <p>{restaurant.cuisine}</p>
+    </li>
+  );
+}
+
+export default RestaurantCard;
+
+// RestaurantList.js
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
+import RestaurantCard from "./RestaurantCard";
+
+const GET_RESTAURANTS = gql`
+  query GetRestaurants {
+    restaurants {
+      id
+      name
+      cuisine
+    }
+  }
+`;
+
+function RestaurantList() {
+  const { data, loading, error } = useQuery(GET_RESTAURANTS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  return (
+    <ul>
+      {data.restaurants.map((r) => (
+        <RestaurantCard key={r.id} restaurant={r} />
+      ))}
+    </ul>
+  );
+}
+
+export default RestaurantList;

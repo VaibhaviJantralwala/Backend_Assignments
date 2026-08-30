@@ -1,0 +1,125 @@
+You are building a food delivery app where dozens of restaurant cards must be rendered on the homepage. Each card shows the restaurant name, cuisine type, rating, and estimated delivery time. You plan to create a single RestaurantCard component that can be reused for every card. Question: Explain why props are the correct mechanism to pass the restaurant data into each RestaurantCard instance rather than hardcoding the values inside the component. What specific problem does props-driven design solve when the same component must render data for 50 different restaurants from an API response array  
+-->
+Props are used because they allow the same RestaurantCard component to display different data dynamically.
+
+Instead of hardcoding:
+
+<h2>Domino's</h2>
+
+we pass data through props:
+
+<RestaurantCard restaurant={restaurant} />
+
+For 50 restaurants, we can simply:
+
+restaurants.map(restaurant => (
+  <RestaurantCard restaurant={restaurant} />
+))
+
+Problem solved: Props prevent code duplication and make the component reusable and dynamic, so one component can render all 50 API records with different values.
+
+
+
+You are developing the live order tracking screen for a food delivery platform. When the screen loads, it must immediately call the backend API to get the current order status. Whenever the order status changes — for example from 'Preparing' to 'Out for Delivery' — the UI must update automatically without a page reload  
+
+Question: Which two React hooks would you use to manage this behaviour, and in what order do they execute on the component's initial render? Justify why the API call must be placed inside a hook rather than directly inside the component function body  
+-->
+Use useState + useEffect.
+
+useState → stores the current order status and triggers a re-render when it changes.
+useEffect → makes the API call when the component loads (and can set up polling/WebSocket for future status changes).
+Initial render order:
+Component function executes → useState initializes the status.
+JSX is rendered with the initial state.
+After the render, useEffect executes → API call happens.
+API response updates state using setStatus() → component re-renders with the new status.
+const [status, setStatus] = useState("Loading...");
+
+useEffect(() => {
+  fetchOrderStatus()
+    .then(data => setStatus(data.status));
+}, []);
+
+Why not call the API directly in the component?
+Because the component function runs every time the component re-renders. An API call placed directly inside it could fire repeatedly, causing unnecessary requests or even an infinite request → state update → render → request loop.
+
+So: useState manages the data; useEffect manages the side effect (API call).
+
+You are working on a food delivery app where three separate components — the
+restaurant listing page, the individual menu page, and the order history screen — each
+fetch data from different API endpoints. All three use identical logic to manage loading
+spinners and error messages.
+Question: How would you extract this repeated fetch logic into a custom hook to eliminate
+duplication? What naming convention must a custom hook follow, and what should it return so
+that each of the three components can consume it independently without sharing state?
+-->
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(data => setData(data))
+      .catch(err => setError(err))
+      .finally(() => setLoading(false));
+  }, [url]);
+
+  return { data, loading, error };
+}
+Key points:
+Custom hook must start with use → useFetch, useAuth, useOrders, etc.
+It should return the values the component needs, e.g. data, loading, error.
+Each component gets its own state because each call to useFetch() creates a separate hook instance. They don't share state.
+
+You are building the cart feature for a food delivery platform. The cart state — holding
+item IDs, quantities, and the running total — must be readable and updatable from the
+restaurant menu page, the persistent cart drawer in the navbar, and the checkout page,
+all at the same time.
+Question: Compare using React Context API versus Redux to manage this shared cart state.
+Under what conditions would Redux be the more suitable choice for a production-scale food
+delivery app, and what specific problem does Redux Thunk solve when the cart feature needs to
+call a server API to apply a promo code?
+-->
+Context API: Good for simple shared cart state with limited update logic. It’s built into React and requires less setup.
+
+Redux: Better for a large production app when state is complex, updated from many places, and needs predictable state transitions, debugging, middleware, and scalability.
+
+For a food delivery app with cart + user + orders + payments + promos, Redux would be more suitable as the application grows.
+
+Redux Thunk
+
+Redux Thunk allows Redux actions to contain asynchronous logic.
+Without Thunk, normal Redux actions are synchronous and can't directly handle this async API workflow.
+
+
+You are designing the data API for a food delivery platform. The customer-facing mobile app only needs the restaurant name, average rating, and delivery fee per restaurant. The admin dashboard, however, requires the full restaurant profile — including owner contact details, total order count, active menu items, and city — for each record. Question: Explain how a GraphQL API satisfies both clients from a single endpoint differently from a traditional REST API. Which GraphQL feature prevents the mobile app from receiving data it does not need, and how does this benefit network performance on a mobile connection?
+-->
+GraphQL vs REST
+GraphQL: Both mobile and admin clients use one endpoint, but each sends a query requesting exactly the fields it needs.
+Mobile → name, averageRating, deliveryFee
+Admin → name, ownerContact, orderCount, activeMenuItems, city, ...
+REST: Different endpoints/resources often return a fixed response structure, so the mobile app may receive many fields it doesn't actually need.
+Key GraphQL feature
+
+Field-level querying (client specifies exactly what fields to fetch) prevents over-fetching.
+
+This is especially useful on mobile networks because less unnecessary data is transferred, reducing payload size, bandwidth usage, and often improving response speed.
+
+
+You are optimising the homepage of a food delivery web platform built in Next.js. The
+homepage displays a curated list of featured restaurants that the marketing team
+updates once a day. Organic search traffic from Google is a primary acquisition
+channel, so every millisecond of page load time and every crawlable HTML element
+matters.
+Question: Would you use getStaticProps or getServerSideProps to fetch the featured restaurant
+list, and why? Explain precisely how your choice affects Google's ability to index the page content
+and how it differs in the load it places on your server per visitor request
+-->
+use getStaticProps.
+Why: Featured restaurants change only once a day, so static generation is ideal. Next.js generates the HTML at build time, which can then be served quickly from a CDN.
+Google indexing: Google receives fully rendered HTML containing the restaurant names/content immediately, so the content is easily crawlable and indexable without depending on client-side JavaScript execution.
+Server load: getStaticProps does not fetch the data on every visitor request. The page is generated once (or regenerated with ISR if configured) and reused for many visitors.
+getServerSideProps: Runs on every request, fetching the restaurant list and generating HTML separately for each visitor, increasing server workload and potentially response time.
+
