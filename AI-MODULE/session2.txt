@@ -1,0 +1,6 @@
+
+| **UI Generation**       | Can generate editable UI layouts and designs from natural-language prompts.                                  | Can generate multi-screen prototypes and UI designs from simple text prompts.                                                        |
+| **Rapid Prototyping**   | Helps turn ideas into interactive prototypes and lets designers quickly explore different design directions. | Creates editable prototypes quickly, reducing the need to manually create every screen.                                              |
+| **Automation**          | Can automate tasks such as renaming layers, generating content, finding assets, and adding interactions.     | Can modify components, generate screens, and automatically create themes.                                                            |
+| **From Existing Ideas** | Can work with existing Figma designs and design systems while generating or refining UI.                     | Screenshot Scanner can convert screenshots into editable mockups, while Wireframe Scanner can convert sketches into digital designs. |
+| **Overall Benefit**     | Reduces repetitive design work and makes it faster to explore, refine, and prototype modern interfaces.      | Makes UI creation accessible and fast, especially during early ideation and prototyping.                                             |

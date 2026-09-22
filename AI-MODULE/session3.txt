@@ -1,0 +1,23 @@
+Create a responsive navigation bar for a Myntra-style fashion shopping web application using HTML and CSS.
+
+The navigation bar must contain:
+- A logo/name on the left
+- Home
+- Explore
+- Cart
+- Profile
+
+Desktop requirements:
+- Display all navigation links horizontally.
+- Keep the logo on the left and navigation links on the right.
+- Use proper spacing and alignment.
+- The navigation bar should have a clean, modern fashion e-commerce design.
+
+Mobile requirements:
+- Make the navigation bar responsive for small screens.
+- Display the logo at the top or left and arrange the navigation links in a mobile-friendly layout.
+- Navigation items should remain easy to tap on touch screens.
+- Adjust font sizes, spacing, and layout for smaller screens.
+
+Use only HTML and CSS. Do not use JavaScript or external libraries.
+Return the complete HTML code with the CSS included.

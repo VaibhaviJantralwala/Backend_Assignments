@@ -1,0 +1,23 @@
+1. Generate HTML/CSS/JavaScript Code
+
+How AI helps:
+ChatGPT or Copilot can generate basic HTML, CSS, and JavaScript for restaurant cards, navigation bars, review forms, filters, and responsive layouts. This reduces the time spent writing repetitive front-end code.
+
+Ethical Risk:
+AI-generated code may contain bugs, insecure practices, or code copied from patterns with unclear licensing. The developer should review and test the generated code instead of blindly using it.
+
+2. Generate Restaurant Review Components
+
+How AI helps:
+AI can quickly create reusable components such as restaurant cards, star-rating components, review sections, search bars, and filter menus.
+
+Ethical Risk:
+If AI-generated reviews or ratings are used as if they came from real customers, they could create fake or misleading opinions. Reviews should represent genuine user experiences.
+
+3. Debug and Improve Existing Code
+
+How AI helps:
+Copilot or ChatGPT can identify syntax errors, explain error messages, suggest fixes, and improve code structure. This can reduce debugging time during front-end development.
+
+Ethical Risk:
+Developers may accidentally share private information, API keys, user data, or confidential project code with an AI tool while asking for debugging help. Sensitive information should be removed before sharing code.
